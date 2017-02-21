@@ -59,5 +59,5 @@ def main():
     try:
         getattr(engine, u'cmdrun_{}'.format(args.subcommand))(**vars(args))
     except Exception as e:
-        print "Exception occurred! %s" % e
+        print("Exception occurred! %s" % e)
         sys.exit(1)

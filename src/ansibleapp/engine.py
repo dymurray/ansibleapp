@@ -134,7 +134,7 @@ def init_dockerfile(spec_path, dockerfile_path):
     dockerfile_out = insert_encoded_spec(
             load_dockerfile(), make_friendly(blob))
     write_dockerfile(dockerfile_out, dockerfile_path)
-    print 'Finished writing dockerfile.'
+    print('Finished writing dockerfile.')
 
 
 def cmdrun_prepare(**kwargs):
@@ -148,7 +148,7 @@ def cmdrun_prepare(**kwargs):
     try:
         spec = load_spec_dict(spec_path)
     except Exception as e:
-        print 'ERROR: Failed to load spec!'
+        print('ERROR: Failed to load spec!')
         raise e
 
     # ID specfile if it hasn't already been done
