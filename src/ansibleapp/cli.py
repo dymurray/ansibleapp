@@ -7,11 +7,15 @@ import ansibleapp.engine
 AVAILABLE_COMMANDS = {
     'help': 'Display this help message',
     'prepare': 'Prepare an ansible-container project for ansibleapp packaging',
-    'build': 'Build and package ansibleapp container'
+    'package': 'Build and package ansibleapp container'
 }
 
 
-def subcmd_build_parser(parser, subcmd):
+def subcmd_package_parser(parser, subcmd):
+    subcmd.add_argument(
+        '--tag', action='store', dest='tag',
+        help=u'Tag to build docker image with'
+    )
     return
 
 

@@ -2,6 +2,7 @@ import os
 import uuid
 import base64
 import yaml
+import docker
 
 from shutil import copyfile
 
@@ -26,6 +27,11 @@ def load_dockerfile(ansible_dir_exists):
 
     with open(df_path, 'r') as dockerfile:
         return dockerfile.readlines()
+
+
+def build_dockerfile(docker_tag, dockerfile_path):
+    dc = docker.Client()
+    dc.images.build(path=dockerfile_path, tag=docker_tag)
 
 
 def write_dockerfile(dockerfile, destination):
@@ -177,5 +183,15 @@ def cmdrun_prepare(**kwargs):
     init_dockerfile(spec_path, dockerfile_path, ansible_dir_exists)
 
 
-def cmdrun_build(**kwargs):
-    raise Exception('ERROR: BUILD NOT YET IMPLEMENTED!')
+def cmdrun_package(**kwargs):
+    project = kwargs['base_path']
+    tag = kwargs['tag']
+
+    dockerfile_path = os.path.join(os.path.join(project, 'Dockerfile'))
+    if not os.path.exists(dockerfile_path):
+        raise Exception('ERROR: File: [ %s ] not found' % dockerfile_path)
+
+    client = docker.from_env()
+    print("Building from path: %s" % dockerfile_path)
+    image = client.images.build(path=os.path.join(project), tag=tag)
+    print("Docker image built with the tag: %s" % image.tag)
